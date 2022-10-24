@@ -1,0 +1,16 @@
+version: '3'
+services:
+  script-testbench:
+    container_name: script-testbench
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    image: ubuntu/focal-20.04:testbench
+    restart: unless-stopped
+    tty: true        # docker run -t
+    stdin_open: true
+    environment:
+        - TZ=${TZ:-Europe/Athens}    
+    ports:
+      - "8081:8080"
+    
