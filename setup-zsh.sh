@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-IS_DOCKER_IMASGE="$1"
-export IS_DOCKER_IMASGE
+IS_DOCKER_IMAGE="$1"
+export IS_DOCKER_IMAGE
 
 # shellcheck source=/dev/null
 source ./lib.sh
@@ -52,7 +52,6 @@ res=$(~/.fzf/install 2>&1)
 log_result "$?" "$res" "Installing fzf ..."
 
 # Install zsh-autosuggestions
-mkdir -p  ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 res=$(git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions  2>&1)
 log_result "$?" "$res" "Cloning and installing zsh-autosuggestions..."
 
@@ -73,5 +72,3 @@ sudo cp examples/* /etc/compleat.d
 
 # Call function to update the ~/.zshrc file
 update_file
-
-exec zsh

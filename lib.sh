@@ -51,7 +51,7 @@ BKCYN=$'\x1b[46m'
 BKWHT=$'\x1B[47m'
 # "msg [OK]"
 function pr_succ { # Reset color with \n
-    if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMASGE" == "TRUE" ]; then
+    if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMAGE" == "TRUE" ]; then
         printf "%b\n" "${BBLU}[ ${BGRN}OK${BBLU} ]${CNRM} ${@}"
         # echo -n "${BBLU}[ ${BGRN}OK${BBLU} ]${CNRM} ${@}"
         # printf "%s" "${BBLU}[${BGRN}OK${BBLU}]"             # Pad with spaces
@@ -69,7 +69,7 @@ function pr_succ { # Reset color with \n
 
 # "msg [!!]"
 function pr_fail {
-    if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMASGE" == "TRUE" ]; then
+    if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMAGE" == "TRUE" ]; then
         printf "%b\n" "${BBLU}[ ${BRED}!!${BBLU} ]${CNRM} ${@}"
         # echo -n  "${BBLU}[ ${BRED}!!${BBLU} ]${CNRM}" ${@}
         # printf "%s" "${BBLU}[${BRED}!!${BBLU}]"             # Pad with spaces
