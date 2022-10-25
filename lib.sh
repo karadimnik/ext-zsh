@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-function append_in_file() {
-    local i=1
-    local file=$1
-    # IFS=' ' read -ra miniApps <<< "${@}"
-    for arg; do
-        if (("$i" == 1)); then
-            i=$((i + 1))
-            continue
-        fi
-        printf '\n%b' "$arg" >>"$file"
-    done
-}
-
 # Control characters
 CBRK=$'\x1b[0;01m' # Line break?
 CNRM=$'\x1b[0;0m'  # Clear color
@@ -49,13 +36,24 @@ BKBLU=$'\x1b[44m'
 BKMAG=$'\x1b[45m'
 BKCYN=$'\x1b[46m'
 BKWHT=$'\x1B[47m'
+
+function append_in_file() {
+    local i=1
+    local file=$1
+    # IFS=' ' read -ra miniApps <<< "${@}"
+    for arg; do
+        if (("$i" == 1)); then
+            i=$((i + 1))
+            continue
+        fi
+        printf '\n%b' "$arg" >>"$file"
+    done
+}
+
 # "msg [OK]"
 function pr_succ { # Reset color with \n
     if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMAGE" == "TRUE" ]; then
         printf "%b\n" "${BBLU}[ ${BGRN}OK${BBLU} ]${CNRM} ${@}"
-        # echo -n "${BBLU}[ ${BGRN}OK${BBLU} ]${CNRM} ${@}"
-        # printf "%s" "${BBLU}[${BGRN}OK${BBLU}]"             # Pad with spaces
-        # echo "${CNRM}"                                   # Reset color with \n
     else
 
         local TWIDTH=$(tput cols)                          # Get terminal width
@@ -71,9 +69,6 @@ function pr_succ { # Reset color with \n
 function pr_fail {
     if [ -f /.dockerenv ] || [ "$IS_DOCKER_IMAGE" == "TRUE" ]; then
         printf "%b\n" "${BBLU}[ ${BRED}!!${BBLU} ]${CNRM} ${@}"
-        # echo -n  "${BBLU}[ ${BRED}!!${BBLU} ]${CNRM}" ${@}
-        # printf "%s" "${BBLU}[${BRED}!!${BBLU}]"             # Pad with spaces
-        # echo "${CNRM}" # Reset color with \n
     else
 
         local TWIDTH=$(tput cols)                          # Get terminal width
@@ -106,17 +101,6 @@ function pr_err {
 }
 
 function log_result {
-    # local i=1
-    # local file=$1
-    # # IFS=' ' read -ra miniApps <<< "${@}"
-    # for arg; do
-    #     if (("$i" == 1)); then
-    #         i=$((i + 1))
-    #         continue
-    #     fi
-    #     printf '\n%b' "$arg" >> "$file"
-    # done
-
     if [ "$1" == 0 ]; then
         pr_succ "$3"
     else
