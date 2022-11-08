@@ -10,7 +10,4 @@ services:
     tty: true        # docker run -t
     stdin_open: true
     environment:
-        - TZ=${TZ:-Europe/Athens}    
-    ports:
-      - "8081:8080"
-    
+        - TZ=${TZ:-Europe/Athens}   

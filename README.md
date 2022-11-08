@@ -1,6 +1,6 @@
 # Workspace
 
-### For containerized development/testing
+### For containerized development/testing/previewing
 
 Make changes in `Dockerfile` and/or `docker-compose.yml` along with any configuration needed in scripts then 
 

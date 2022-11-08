@@ -17,10 +17,11 @@ RUN apt-get install -y curl
 RUN apt-get install -y git
 
 ENV LANG en_US.utf8
- 
+
 COPY lib.sh .
 COPY setup-zsh.sh .
 COPY setup-zsh_functions.sh .
+COPY ALIASES .
 RUN chmod u+x lib.sh
 RUN chmod u+x setup-zsh.sh
 RUN chmod u+x setup-zsh_functions.sh

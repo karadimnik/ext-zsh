@@ -42,6 +42,13 @@ function update_file() {
         "")
     log_result "$?" "$res" "Configure zsh auto update by reminder in ~/.zshrc."
 
+    # pr_info "Configure zsh auto update by reminder in ~/.zshrc."
+    res=$(append_in_file "$file" "# ## ### #### ### ## #" \
+        "## ALIASES File" \
+        "source ~/.oh-my-zsh/custom/ALIASES" \
+        "")
+    log_result "$?" "$res" "Set ALIASES file in ~/.zshrc."
+
     # pr_info "Enabling more 'plugins' in ~/.zshrc."
     res=$(sed -i '/^plugins\=(.*/c\plugins=(git zsh-autosuggestions zsh-interactive-cd fzf docker-compose aliases copyfile common-aliases sudo jsontools)' "$file")
     log_result "$?" "$res" "Enabling more 'plugins' in ~/.zshrc."

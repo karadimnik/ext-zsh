@@ -1,0 +1,49 @@
+docker-attach-bash() {
+	docker exec -it "$1" bash
+}
+
+docker-attach-sh() {
+	docker exec -it "$1" sh
+}
+
+docker-attach() {
+	if (($# < 2 || $# > 2)); then
+		printf "[ ERROR ] Wrong Argument Length"
+		printf "[ USAGE ] docker.attach {{container-id|name}} {{bash|sh}}"
+	else
+
+		docker exec -it "$1" "$2"
+	fi
+
+}
+
+function rsync-with-status-bar() {
+	if (($# < 2 || $# > 2)); then
+		printf "[ ERROR ] Wrong Argument Length"
+		printf "[ USAGE ] rsync.withStatusBar {{source-path}} {{destination-path}}"
+	else
+		FCNT=$(rsync -r --dry-run --ignore-existing --stats --human-readable "$1" "$2" | grep -E 'Number of regular files transferred: ([0-9]+)' | grep -o -E '[0-9]+')
+		((FCNT += 13))
+		rsync -rav --ignore-existing "$1" "$2" | pv -pteabl -s "$FCNT" >/dev/null
+	fi
+}
+
+function rsync-with-status-bar2() {
+	if (($# < 2 || $# > 2)); then
+		printf "[ ERROR ] Wrong Argument Length"
+		printf "[ USAGE ] rsync.withStatusBar {{source-path}} {{destination-path}}"
+	else
+		filesToBeCopied=$(rsync -a --dry-run --info=progress2 "$1" "$2" | sed 's/.*to-chk=0\/\([[:digit:]]\+\))/\1/g')
+		rsync -rav --stats --human-readable "$1" "$2" | pv -pteabl -s $(((filesToBeCopied+=18))) >/dev/null
+	fi
+}
+
+alias docker.attach.bash="docker-attach-bash"
+alias docker.attach.sh="docker-attach-sh"
+alias docker.attach="docker-attach"
+alias rsync.withStatusBar='rsync-with-status-bar2'
+
+alias tasks.detach='echo "[ ~$ Ctrl+z ] then [ ~$ bg ]" then "[ ~$ disown ]"'
+alias cp='rsync -ah --progress'
+alias cat=bat
+alias f.git='cd ~/workspace/git'

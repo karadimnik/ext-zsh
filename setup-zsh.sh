@@ -57,18 +57,10 @@ log_result "$?" "$res" "Cloning and installing zsh-autosuggestions..."
 
 res=$(git clone https://github.com/mbrubeck/compleat.git ~/compleat 2>&1)
 log_result "$?" "$res" "Cloning compleat ..."
-
-curl -sSL https://get.haskellstack.org/ | sh
-# res=$(curl -sSL https://get.haskellstack.org/ | sh 2>&1)
-log_result "$?" "$res" "Installing stack ..."
-
-
-cd ~/compleat || exit
-# res=$(make install 2>&1)
-make install
-log_result "$?" "$res" "Installing compleat ..."
-sudo mkdir /etc/compleat.d
-sudo cp examples/* /etc/compleat.d
+s/compleat.d
 
 # Call function to update the ~/.zshrc file
+cp ALIASES "$HOME/.oh-my-zsh/custom/ALIASES"
+log_result "$?" "$res" "Copying ALIASES file ..."
+
 update_file
