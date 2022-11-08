@@ -59,7 +59,7 @@ function pr_succ { # Reset color with \n
         local TWIDTH=$(tput cols)                          # Get terminal width
         local SWIDTH="$@"                                  # Save string
         local WSPACE="$(expr ${TWIDTH} - ${#SWIDTH} + 21)" # Amount of whitespace
-        echo -n {@}                                        # Print message
+        echo -n "${@}"                                        # Print message
         printf "%${WSPACE}s" "${BBLU}[ ${BGRN}OK${BBLU} ]" # Pad with spaces
         echo "${CNRM}"                                     # Reset color with \n
     fi
@@ -74,7 +74,7 @@ function pr_fail {
         local TWIDTH=$(tput cols)                          # Get terminal width
         local SWIDTH="$@"                                  # Save string
         local WSPACE="$(expr ${TWIDTH} - ${#SWIDTH} + 21)" # Amount of whitespace
-        echo -n ${@}                                       # Print message
+        echo -n "${@}"                                       # Print message
         printf "%${WSPACE}s" "${BBLU}[ ${BRED}!!${BBLU} ]" # Pad with spaces
         echo "${CNRM}"                                     # Reset color with \n
     fi
