@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
+## Place the WRAP-ALIAS file in the same directory as the 
+# scripts ( will be changed in the future )
+# run [ $ source WRAP-ALIAS ]
 EXECUTING_FROM_DIR=$(dirname $0)
 ABSOLUTE_FILE_DIRECTORY=$(realpath "$(dirname $0)")
 echo EXECUTING_FROM_DIR:"$EXECUTING_FROM_DIR"
 echo ABSOLUTE_FILE_DIRECTORY:"$ABSOLUTE_FILE_DIRECTORY"
 
+# Include your script files with functions here
+# scripts should adhere to the following pattern for the function declaration:
+# function functioName() {
+# last line of script file should be "$@"
 SCRIPT_FILES=("wrapper-docker.sh" "wrapper-filesys.sh" )
 
+# Aliases are dynamically set based on the function names in each script
 for item in "${SCRIPT_FILES[@]}"; do
 	while IFS= read -r line; do
 		trimmedline=$(echo -e "$line"|xargs)
