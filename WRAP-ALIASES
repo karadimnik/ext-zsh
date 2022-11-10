@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+EXECUTING_FROM_DIR=$(dirname $0)
+ABSOLUTE_FILE_DIRECTORY=$(realpath "$(dirname $0)")
+echo EXECUTING_FROM_DIR:"$EXECUTING_FROM_DIR"
+echo ABSOLUTE_FILE_DIRECTORY:"$ABSOLUTE_FILE_DIRECTORY"
+
+SCRIPT_FILES=("wrapper-docker.sh" "wrapper-filesys.sh" )
+
+for item in "${SCRIPT_FILES[@]}"; do
+	while IFS= read -r line; do
+		trimmedline=$(echo -e "$line"|xargs)
+		alias $trimmedline="$ABSOLUTE_FILE_DIRECTORY/$item $trimmedline"
+		# break
+	done <<<$(grep -E '^[[:space:]]*([[:alnum:]_]+[[:space:]]*\(\)|function[[:space:]]+[[:alnum:]_]+)' "$ABSOLUTE_FILE_DIRECTORY/${item}" | sed -e 's/function //g' | sed -e 's/() {//g')
+	# break
+done

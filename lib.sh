@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export IS_DOCKER_IMAGE=false
 # Control characters
 CBRK=$'\x1b[0;01m' # Line break?
 CNRM=$'\x1b[0;0m'  # Clear color
@@ -37,6 +38,27 @@ BKMAG=$'\x1b[45m'
 BKCYN=$'\x1b[46m'
 BKWHT=$'\x1B[47m'
 
+function check_command_result() {
+    if [[ "$?" != 0 ]]; then
+        shift
+        pr_fail "Error: [ $@ ]"
+        exit 1
+    else
+        shift
+        shift
+        pr_succ "$@"
+    fi
+}
+
+function show_help() {
+    if (($1 != $2)); then
+        shift
+        shift
+        printf "%s\n" "$@"
+        exit 1
+    fi
+}
+
 function append_in_file() {
     local i=1
     local file=$1
@@ -56,12 +78,16 @@ function pr_succ { # Reset color with \n
         printf "%b\n" "${BBLU}[ ${BGRN}OK${BBLU} ]${CNRM} ${@}"
     else
 
-        local TWIDTH=$(tput cols)                          # Get terminal width
-        local SWIDTH="$@"                                  # Save string
+        local TWIDTH=$(tput cols) # Get terminal width
+        local SWIDTH="$@"         # Save string
+        while IFS= read -r line; do
+            SWIDTH="$line"
+        done <<<"$@"
+
         local WSPACE="$(expr ${TWIDTH} - ${#SWIDTH} + 21)" # Amount of whitespace
-        echo -n "${@}"                                        # Print message
+        printf "%b" "${@}"                                 # Print message
         printf "%${WSPACE}s" "${BBLU}[ ${BGRN}OK${BBLU} ]" # Pad with spaces
-        echo "${CNRM}"                                     # Reset color with \n
+        printf "%b" "${CNRM}"                              # Reset color with \n
     fi
 }
 
@@ -71,12 +97,16 @@ function pr_fail {
         printf "%b\n" "${BBLU}[ ${BRED}!!${BBLU} ]${CNRM} ${@}"
     else
 
-        local TWIDTH=$(tput cols)                          # Get terminal width
-        local SWIDTH="$@"                                  # Save string
+        local TWIDTH=$(tput cols) # Get terminal width
+        local SWIDTH="$@"         # Save string
+        while IFS= read -r line; do
+            SWIDTH="$line"
+        done <<<"$@"
+        
         local WSPACE="$(expr ${TWIDTH} - ${#SWIDTH} + 21)" # Amount of whitespace
-        echo -n "${@}"                                       # Print message
+        printf "%b" "${@}"                                 # Print message
         printf "%${WSPACE}s" "${BBLU}[ ${BRED}!!${BBLU} ]" # Pad with spaces
-        echo "${CNRM}"                                     # Reset color with \n
+        printf "%b" "${CNRM}"                              # Reset color with \n
     fi
 }
 
