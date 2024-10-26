@@ -7,7 +7,7 @@ function files.cp() {
 
 	HELP="files.cp [source-path] [destination-path] -- Copy files using rsync and status bar
 
-where:
+	where:
     source-path  the path folder containing file(s) to copy from | path to a single file
     destination-path  the path to place the files"
 
@@ -30,7 +30,7 @@ where:
 function files.countFiles() {
 	HELP="files.countFiles [ path ] -- Count files in directory 
 
-where:
+	where:
     path  the path to count files from"
 
 	show_help "$#" 1 "$HELP"
@@ -42,7 +42,7 @@ where:
 function files.countFilesRecursively() {
 	HELP="files.countFilesRecursively [ path ] -- Count files in directory recursively
 
-where:
+	where:
     path  the path to start counting files from"
 	show_help "$#" 1 "$HELP"
 	CMD="find $1 -type f 2>/dev/null | wc -l;"
@@ -54,7 +54,7 @@ where:
 function files.findFiles() {
 	HELP="files.findFiles [ path ] [ filename ]-- Find files in directory 
 
-where:
+	where:
     path  the path to start counting files
     filename  the filename to search(wildcards supported)"
 
@@ -71,7 +71,7 @@ function files.directorySizeHuman() {
 	# du -h --max-depth="$1" "$2" 2>/dev/null;s
 	HELP="files.directorySizeHuman [ path ] -- Calculated directory size
 
-where:
+	where:
     path  the path to calculate the size for"
 
 	show_help "$#" 1 "$HELP"
@@ -82,7 +82,7 @@ where:
 function http.downloadFilesRecursively() {
 	HELP="http.downloadFilesRecursively [ site ] -- Download files from site
 
-where:
+	where:
     site  the site(path) to start downloading"
 
 	show_help "$#" 1 "$HELP"
@@ -95,7 +95,7 @@ where:
 function http.directorySize() {
 	HELP="http.directorySize [ site ] -- Show remote directory size
 
-where:
+	where:
     site  the site(path) to calculate its size"
 
 	show_help "$#" 1 "$HELP"
